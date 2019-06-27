@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Arrays;
 import java.util.List;
 
-public class Tab2Fragment extends Fragment {
+public class RecyclerViewFragment extends Fragment {
     private RecyclerViewAdapter adapter;
     RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -170,45 +170,3 @@ public class Tab2Fragment extends Fragment {
 //        adapter.notifyDataSetChanged();
 //    }
 }
-
-//package com.example.myapplication;
-//
-//import android.content.Context;
-//import android.net.Uri;
-//import android.os.Bundle;
-//
-//import androidx.annotation.NonNull;
-//import androidx.annotation.Nullable;
-//import androidx.fragment.app.Fragment;
-//import androidx.recyclerview.widget.LinearLayoutManager;
-//import androidx.recyclerview.widget.RecyclerView;
-//
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//
-//import org.json.JSONArray;
-//
-//
-///**
-// * A simple {@link Fragment} subclass.
-// * Activities that contain this fragment must implement the
-// * {@link Tab2Fragment.OnFragmentInteractionListener} interface
-// * to handle interaction events.
-// * Use the {@link Tab2Fragment#newInstance} factory method to
-// * create an instance of this fragment.
-// */
-//public class Tab2Fragment extends Fragment {
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//
-//        View view = inflater.inflate(R.layout.fragment_tab2, container, false);
-//
-////        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
-////        recyclerView.setAdapter(new RecyclerViewAdapter());
-//
-//        return view;
-//    }
-//
-//}

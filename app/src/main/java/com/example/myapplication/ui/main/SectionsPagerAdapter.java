@@ -39,7 +39,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return new Tab1Fragment();
             case 1:
 //                fragment = Fragment.instantiate(mContext, "Tab 2");
-////                break;
+//                break;
                 return new Tab2Fragment();
             case 2:
 //                fragment = Fragment.instantiate(mContext, "Tab 3");
