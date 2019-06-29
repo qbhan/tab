@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import java.io.Serializable;
+
 public class Data {
 
     private String title;
@@ -26,7 +28,8 @@ public class Data {
         return resId;
     }
 
-    public void setResId(int resId) {
+    public void setResId() {
         this.resId = resId;
     }
+
 }
