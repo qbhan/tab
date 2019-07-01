@@ -3,17 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+
+    <Button
+        android:id="@+id/full_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@color/colortext1"
+        android:textColor="@color/colorButton1"
+        android:text="FULL VIEW" />
+
+    <Button
+        android:id="@+id/edit_button"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:onClick="onClick"
+        android:text="DELETE"
+        android:background="@color/colortext1"
+        android:textColor="@color/colorButton1"
+        android:visibility="visible" />
+
     <GridView
         android:id="@+id/galleryGridView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="25dp"
         android:columnWidth="280dp"
         android:gravity="center"
         android:horizontalSpacing="2dp"
         android:numColumns="2"
         android:padding="2dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="2dp" >
+        android:verticalSpacing="2dp">
+
     </GridView>
 
 </RelativeLayout>
