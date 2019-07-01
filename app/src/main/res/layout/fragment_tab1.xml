@@ -1,43 +1,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
 
-    <Button
-        android:id="@+id/full_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:background="@color/colortext1"
-        android:textColor="@color/colorButton1"
-        android:text="FULL VIEW" />
-
-    <Button
-        android:id="@+id/edit_button"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:onClick="onClick"
-        android:text="DELETE"
-        android:background="@color/colortext1"
-        android:textColor="@color/colorButton1"
-        android:visibility="visible" />
-
-    <GridView
-        android:id="@+id/galleryGridView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="25dp"
-        android:columnWidth="280dp"
-        android:gravity="center"
-        android:horizontalSpacing="2dp"
-        android:numColumns="2"
-        android:padding="2dp"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="2dp">
+        android:layout_height="match_parent">
 
-    </GridView>
+        <GridView
+            android:id="@+id/galleryGridView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="8dp"
+            android:columnWidth="280dp"
+            android:gravity="center"
+            android:horizontalSpacing="2dp"
+            android:numColumns="2"
+            android:padding="2dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </GridView>
+
+        <Button
+            android:id="@+id/full_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colortext1"
+            android:text="FULL VIEW"
+            android:textColor="@color/colorButton1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colortext1"
+            android:onClick="onClick"
+            android:text="DELETE"
+            android:textColor="@color/colorButton1"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

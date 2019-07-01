@@ -242,9 +242,9 @@ public class Tab3Fragment extends Fragment {
                 Toast.makeText(requireContext(), "DECK SHUFFLED!!!", Toast.LENGTH_SHORT).show();
 
                 //show back of the cards
-                int leftImage = getResources().getIdentifier("black_joker", "drawable", getActivity().getPackageName());
+                int leftImage = getResources().getIdentifier("avocard1", "drawable", getActivity().getPackageName());
                 iv_card_left.setImageResource(leftImage);
-                int rightImage = getResources().getIdentifier("black_joker", "drawable", getActivity().getPackageName());
+                int rightImage = getResources().getIdentifier("avocard1", "drawable", getActivity().getPackageName());
                 iv_card_right.setImageResource(rightImage);
 
 
