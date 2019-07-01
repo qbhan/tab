@@ -2,9 +2,13 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.w3c.dom.Text;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -32,6 +38,7 @@ import static java.sql.DriverManager.println;
 
 public class Tab2Fragment extends Fragment {
     private RecyclerViewAdapter adapter;
+//    public Data data;
 
     //for recyclerView
 
@@ -41,11 +48,13 @@ public class Tab2Fragment extends Fragment {
 
     //for ArrayList
     TextView personName, personNumber;
+    ImageView photo;
     String name, number;
     Context AppContext;
     List<String> nameList = new ArrayList<>();
     List<String> numberList = new ArrayList<>();
 
+    private ArrayList<Data> dataList = new ArrayList<>();
     private List<String> Phone_number = new ArrayList<>();
     private List<String> Phone_name = new ArrayList<>();
 
@@ -67,34 +76,33 @@ public class Tab2Fragment extends Fragment {
     }
 
 
-//    public ArrayList<Data> onRequestPermission(int requestCode, String[]permissions, int[] grantResults) {
-//        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                return getContactList();
-//            } else {
-//                return null;
-//            }
-//        } else {
-//            return null;
-//        }
-//    }
-//
-//    private void addContacts() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, );
-//        }
-//    }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+////////////////////////Based on 지수&동하/////////////////////////////////////////////////
+//        view = inflater.inflate(R.layout.fragment_tab2, container, false);
+
+//        personName = (TextView) view.findViewById(R.id.name);
+//        personNumber = (TextView) view.findViewById(R.id.number);
+//        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+//        if (Phone_name.size() > 0) personName.setText("Name: " + Phone_name.get(0));
+//
+//
+//        linearLayoutManager = new LinearLayoutManager(getContext());
+//        recyclerView.setLayoutManager(linearLayoutManager);
+//
+//        adapter = new RecyclerViewAdapter();
+//        recyclerView.setAdapter(adapter);
+//
+//        getContactList();
+//        Log.e("NAME", Phone_name.toString());
+//        getData();
+        ////////////////////////////////////////////////////
 
         view = inflater.inflate(R.layout.fragment_tab2, container, false);
-//        view.setContentView(R.layout.fragment_tab2);
 
         personName = (TextView) view.findViewById(R.id.name);
         personNumber = (TextView) view.findViewById(R.id.number);
+        photo = (ImageView) view.findViewById(R.id.imageView);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        if (Phone_name.size() > 0) personName.setText("Name: " + Phone_name.get(0));
-
 
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -102,132 +110,133 @@ public class Tab2Fragment extends Fragment {
         adapter = new RecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
-        getContactList();
-        Log.e("NAME", Phone_name.toString());
-        getData();
+        ArrayList<Data> dataList = getContactList();
 
-//        dataList = getContactList();
-////        dataList = onRequestPermission()
-//        adapter.addItems(dataList);
+        for (int i = 0; i < dataList.size(); i++) {
+            adapter.addItem(dataList.get(i));
+        }
+        adapter.notifyDataSetChanged();
 
 
-        // 여기는 사진 넣는 튜토리얼얼
-//       List<String> listTitle = Arrays.asList("아보카도1", "아보카도2", "아보카도3", "아보카도4",
-//                "아보카도5", "아보카도6", "아보카도7", "아보카도8", "아보카도9", "아보카도10",
-//                "아보카도11", "아보카도12", "아보카도13", "아보카도14", "아보카도15", "아보카도16");
-//        List<String> listContent = Arrays.asList(
-//                "이 꽃은 국화입니다.",
-//                "여기는 사막입니다.",
-//                "이 꽃은 수국입니다.",
-//                "이 동물은 해파리입니다.",
-//                "이 동물은 코알라입니다.",
-//                "이것은 등대입니다.",
-//                "이 동물은 펭귄입니다.",
-//                "이 꽃은 튤립입니다.",
-//                "이 꽃은 국화입니다.",
-//                "여기는 사막입니다.",
-//                "이 꽃은 수국입니다.",
-//                "이 동물은 해파리입니다.",
-//                "이 동물은 코알라입니다.",
-//                "이것은 등대입니다.",
-//                "이 동물은 펭귄입니다.",
-//                "이 꽃은 튤립입니다."
-//        );
-//        List<Integer> listResId = Arrays.asList(
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1,
-//                R.drawable.pic1
-//        );
-//        for (int i = 0; i < listTitle.size(); i++) {
-//            // 각 List의 값들을 data 객체에 set 해줍니다.
-//            Data data = new Data();
-//            data.setTitle(listTitle.get(i));
-//            data.setContent(listContent.get(i));
-//            data.setResId(listResId.get(i));
-//
-//            // 각 값이 들어간 data를 adapter에 추가합니다.
-//            adapter.addItem(data);
-//        }
-//
-//
-//
-//
-//        // adapter의 값이 변경되었다는 것을 알려줍니다.
-//        adapter.notifyDataSetChanged();
 
 
         return view;
-
+/////////////////////////////////////////////////////////////////////////////////
     }
 
+    ///////////////////////////Based on 지수&동하////////////////////////////////
+//    public void getContactList() {
 
-    public void getContactList() {
 
-        ContentResolver cr = getActivity().getContentResolver();
+//        ContentResolver cr = getActivity().getContentResolver();
+//
+//        Cursor c = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+//                new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.RawContacts.ACCOUNT_TYPE},
+//                ContactsContract.RawContacts.ACCOUNT_TYPE + " <> 'google' ", null, ContactsContract.Contacts.DISPLAY_NAME + " ASC");
+//
+//        if (c.getCount() <= 0) {
+//            Toast.makeText(getActivity(), "No Phone Contact Found..!", Toast.LENGTH_SHORT).show();
+//        } else {
+//            while (c.moveToNext()) {
+//                Phone_number.add(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))); //Phone number
+//                Phone_name.add(c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));  //Name of contact
+//            }
+//        }
+//    }
+    //////////////////////////////////////////////////////////////////////////////////////
 
-        Cursor c = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.RawContacts.ACCOUNT_TYPE},
-                ContactsContract.RawContacts.ACCOUNT_TYPE + " <> 'google' ", null, ContactsContract.Contacts.DISPLAY_NAME + " ASC");
+    public ArrayList<Data> getContactList(){
 
-        if (c.getCount() <= 0) {
-            Toast.makeText(getActivity(), "No Phone Contact Found..!", Toast.LENGTH_SHORT).show();
-        } else {
-            while (c.moveToNext()) {
-                Phone_number.add(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))); //Phone number
-                Phone_name.add(c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));  //Name of contact
-            }
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        String[] projection = new String[] {
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                ContactsContract.Contacts.PHOTO_ID,
+                ContactsContract.Contacts._ID
+        };
+        String[] selectionArgs = null;
+        String sortOrder = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+                + " COLLATE LOCALIZED ASC";
+        Cursor cursor = view.getContext().getContentResolver().query(uri, projection, null, selectionArgs, sortOrder);
+        LinkedHashSet<Data> hashList = new LinkedHashSet<>();
+        if (cursor.moveToFirst()) {
+            do {
+                long photo_id = cursor.getLong(2);
+                long person_id = cursor.getLong(3);
+                Data data = new Data();
+                data.setUser_phNumber(cursor.getString(0));
+                data.setUser_Name(cursor.getString(1));
+                data.setPhoto_id(photo_id);
+                data.setPerson_id(person_id);
+
+                data.setPhoto(loadContactPhoto(getActivity().getContentResolver(), person_id, photo_id));
+
+                hashList.add(data);
+            } while (cursor.moveToNext());
+        }
+        dataList = new ArrayList<>(hashList);
+        for (int i=0; i < dataList.size(); i++) {
+            dataList.get(i).setId(i);
         }
 
-//        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-//        String[] projection = new String[] {
-//                ContactsContract.CommonDataKinds.Phone.NUMBER,
-//                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-//                ContactsContract.Contacts.PHOTO_ID,
-//                ContactsContract.Contacts._ID
-//        };
-//        String[] selectionArgs = null;
-//        String sortOrder = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
-//                + " COLLATE LOCALIZED ASC";
-//        Cursor cursor = view.getContext().getContentResolver().query(uri, projection, null, selectionArgs, sortOrder);
-//        LinkedHashSet<Data> hashList = new LinkedHashSet<>();
-//        if (cursor.moveToFirst()) {
-//            do {
-//                Data data = new Data();
-//                data.setNumber(cursor.getString(0));
-//                data.setName(cursor.getString(1));
-//                long image_id = cursor.getLong(2);
-//                long person_id = cursor.getLong(3);
-//                data.setImage_id(image_id);
-//                data.setPerson_id(person_id);
-//
-//                hashList.add(data);
-//            } while (cursor.moveToNext());
-//        }
-//        dataList = new ArrayList<>(hashList);
-//        for (int i=0; i < dataList.size(); i++) {
-//            dataList.get(i).setId(i);
-//        }
-//
-//        if (cursor !=  null) {
-//            cursor.close();
-//        }
-//
-//        return dataList;
+        if (cursor !=  null) {
+            cursor.close();
+        }
+
+        return dataList;
     }
 
+    public Bitmap loadContactPhoto(ContentResolver cr, long id, long photo_id) {
+        Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
+        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri);
+        if (input != null)
+            return resizingBitmap(BitmapFactory.decodeStream(input));
+        else
+            Log.d("PHOTO", "first try failed to load photo");
+
+        byte[] photoBytes = null;
+        Uri photoUri = ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photo_id);
+        Cursor c = cr.query(photoUri, new String[]{ContactsContract.CommonDataKinds.Photo.PHOTO}, null, null, null);
+        try {
+            if (c.moveToFirst())
+                photoBytes = c.getBlob(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            c.close();
+        }
+
+        if (photoBytes != null)
+            return resizingBitmap(BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.length));
+        else
+            Log.d("PHOTO", "second try also failed");
+        return null;
+    }
+
+    public Bitmap resizingBitmap(Bitmap oBitmap) {
+        if (oBitmap == null)
+            return null;
+        float width = oBitmap.getWidth();
+        float height = oBitmap.getHeight();
+        float resizing_size = 120;
+        Bitmap rBitmap = null;
+        if (width > resizing_size) {
+            float mWidth = (float) (width/100);
+            float fScale = (float) (resizing_size/mWidth);
+            width *= (fScale/100);
+            height *= (fScale/100);
+        } else if (height > resizing_size) {
+            float mHeight = (float) (height/100);
+            float fScale = (float) (resizing_size / mHeight);
+            width *= (fScale/100);
+            height *= (fScale/100);
+        }
+
+        Log.d("rBitmap : " + width + ", " + height, "photo size");
+        rBitmap = Bitmap.createScaledBitmap(oBitmap, (int) width, (int) height, true);
+        return rBitmap;
+
+    }
 //    private void init() {
 //        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 //
@@ -238,72 +247,71 @@ public class Tab2Fragment extends Fragment {
 //        recyclerView.setAdapter(adapter);
 //    }
 
-    private void getData() {
-//        // 임의의 데이터입니다.
-//        List<String> listTitle = Arrays.asList("아보카도1", "아보카도2", "아보카도3", "아보카도4",
-//                "아보카도5", "아보카도6", "아보카도7", "아보카도8", "아보카도9", "아보카도10",
-//                "아보카도11", "아보카도12", "아보카도13", "아보카도14", "아보카도15", "아보카도16");
-//        List<String> listContent = Arrays.asList(
-//                "이 꽃은 국화입니다.",
-//                "여기는 사막입니다.",
-//                "이 꽃은 수국입니다.",
-//                "이 동물은 해파리입니다.",
-//                "이 동물은 코알라입니다.",
-//                "이것은 등대입니다.",
-//                "이 동물은 펭귄입니다.",
-//                "이 꽃은 튤립입니다.",
-//                "이 꽃은 국화입니다.",
-//                "여기는 사막입니다.",
-//                "이 꽃은 수국입니다.",
-//                "이 동물은 해파리입니다.",
-//                "이 동물은 코알라입니다.",
-//                "이것은 등대입니다.",
-//                "이 동물은 펭귄입니다.",
-//                "이 꽃은 튤립입니다."
-//        );
-//        List<Integer> listResId = Arrays.asList(
-//                R.drawable.pic1,
-//                R.drawable.pic2,
-//                R.drawable.pic3,
-//                R.drawable.pic4,
-//                R.drawable.pic4,
-//                R.drawable.pic5,
-//                R.drawable.pic6,
-//                R.drawable.pic7,
-//                R.drawable.pic8,
-//                R.drawable.pic9,
-//                R.drawable.pic10,
-//                R.drawable.pic11,
-//                R.drawable.pic12,
-//                R.drawable.pic13,
-//                R.drawable.pic14,
-//                R.drawable.pic15
-//        );
-//        for (int i = 0; i < listTitle.size(); i++) {
-//            // 각 List의 값들을 data 객체에 set 해줍니다.
+    ///////////////////////////Based on 지수&동하////////////////////////////////
+//    private void getData() {
+//        for (int i = 0; i < Phone_name.size(); i++) {
 //            Data data = new Data();
-//            data.setTitle(listTitle.get(i));
-//            data.setContent(listContent.get(i));
-//            data.setResId(listResId.get(i));
-//
-//            // 각 값이 들어간 data를 adapter에 추가합니다.
+//            data.setTitle(Phone_name.get(i));
+//            data.setContent(Phone_number.get(i));
 //            adapter.addItem(data);
 //        }
-//
-//
-//
-//
-//        // adapter의 값이 변경되었다는 것을 알려줍니다.
 //        adapter.notifyDataSetChanged();
+//   }
+
+    //////////////////////////////////////////////////////////////////////////////////////
+
+//    public Bitmap loadContactPhoto(ContentResolver cr, long id, long photo_id) {
+//        Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
+//        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri);
+//        if (input != null)
+//            return resizingBitmap(BitmapFactory.decodeStream(input));
+//        else
+//            Log.d("PHOTO", "first try failed to load photo");
+//
+//        byte[] photoBytes = null;
+//        Uri photoUri = ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photo_id);
+//        Cursor c = cr.query(photoUri, new String[]{ContactsContract.CommonDataKinds.Photo.PHOTO}, null, null, null);
+//        try {
+//            if (c.moveToFirst())
+//                photoBytes = c.getBlob(0);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            c.close();
+//        }
+//
+//        if (photoBytes != null)
+//            return resizingBitmap(BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.length));
+//        else
+//            Log.d("PHOTO", "second try also failed");
+//        return null;
 //    }
-        for (int i = 0; i < Phone_name.size(); i++) {
-            Data data = new Data();
-            data.setTitle(Phone_name.get(i));
-            data.setContent(Phone_number.get(i));
-            adapter.addItem(data);
-        }
-        adapter.notifyDataSetChanged();
-    }
+//
+//    public Bitmap resizingBitmap(Bitmap oBitmap) {
+//        if (oBitmap == null)
+//            return null;
+//        float width = oBitmap.getWidth();
+//        float height = oBitmap.getHeight();
+//        float resizing_size = 120;
+//        Bitmap rBitmap = null;
+//        if (width > resizing_size) {
+//            float mWidth = (float) (width/100);
+//            float fScale = (float) (resizing_size/mWidth);
+//            width *= (fScale/100);
+//            height *= (fScale/100);
+//        } else if (height > resizing_size) {
+//            float mHeight = (float) (height/100);
+//            float fScale = (float) (resizing_size / mHeight);
+//            width *= (fScale/100);
+//            height *= (fScale/100);
+//        }
+//
+//        Log.d("rBitmap : " + width + ", " + height, "photo size");
+//        rBitmap = Bitmap.createScaledBitmap(oBitmap, (int) width, (int) height, true);
+//        return rBitmap;
+//
+//    }
+
 
 }
 
